@@ -1,0 +1,41 @@
+schemaVersion: 2.1.0
+metadata:
+  name: openjdk-21-sample
+components:
+  - name: tools
+    container:
+      image: quay.io/redhat_na_ssa/universal-developer-image:ubi8-latest
+      memoryLimit: 3Gi
+      endpoints:
+        - exposure: none
+          name: debug
+          protocol: tcp
+          targetPort: 5005
+        # - exposure: public
+        #   name: 8080-tcp
+        #   protocol: http
+        #   targetPort: 8080
+      volumeMounts:
+        - name: m2
+          path: /home/user/.m2
+
+  - name: m2
+    volume:
+      size: 1G
+
+commands:
+  - id: maven-compile
+    exec:
+      component: tools
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: mvn clean compile
+      group:
+        kind: build
+        isDefault: true
+  - id: maven-test
+    exec:
+      component: tools
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: mvn test
+      group:
+        kind: test
