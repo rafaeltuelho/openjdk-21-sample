@@ -28,7 +28,7 @@ commands:
     exec:
       component: tools
       workingDir: ${PROJECT_SOURCE}
-      commandLine: mvn clean compile
+      commandLine: ./mvnw clean compile
       group:
         kind: build
         isDefault: true
@@ -36,6 +36,6 @@ commands:
     exec:
       component: tools
       workingDir: ${PROJECT_SOURCE}
-      commandLine: mvn test
+      commandLine: ./mvnw test
       group:
         kind: test
